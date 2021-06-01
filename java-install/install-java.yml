@@ -1,0 +1,38 @@
+---
+- name: install java
+  hosts:  ansible1.example.com
+  vars:
+    DIR_JAVA_INSTALL: /opt/jdk
+    DIR_JAVA_ARCHIVE: "{{ DIR_JAVA_INSTALL }}/jdk1.8.0_291"
+    FILE_SRC_JDK_INSTALLER:  /home/ansible/Downloads/jdk-8u291-linux-x64.tar.gz
+    FILE_REMOTE_JDK_INSTALLER: "{{ DIR_JAVA_INSTALL }}/jdk-8u291-linux-x64.tar.gz"
+  tasks:
+    - name: Check If java is already installed or not
+      shell: "/usr/bin/java -version 2>&1 | grep version | awk '{print $3}' | sed 's/\"//g'"
+      register: java_installed
+
+    - name: exit if java already installed
+      meta: end_host
+      when: java_installed.stdout != "" and OVERRIDE != "true"
+
+    - name: create a directory
+      file: 
+        path: /opt/jdk
+        state:  directory
+
+    - name: download java installer
+      copy: 
+        src:  "{{ FILE_SRC_JDK_INSTALLER }}"
+        dest: "{{ FILE_REMOTE_JDK_INSTALLER }}"
+
+    - name: unzip 
+      unarchive:
+       src: "{{ FILE_REMOTE_JDK_INSTALLER }}"
+       dest:  "{{ DIR_JAVA_INSTALL }}"
+       remote_src:  yes
+
+    - name: update alternatives
+      shell:  update-alternatives --install /usr/bin/java java {{ DIR_JAVA_ARCHIVE }}/bin/java 100
+
+    - name: set alternatives
+      shell:  update-alternatives --set java {{ DIR_JAVA_ARCHIVE }}/bin/java
