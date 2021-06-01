@@ -1,0 +1,13 @@
+---
+# tasks file for kumar_web
+- name: install httpd
+  yum:  
+    name: "{{  package }}"
+    state:  latest
+- name: create an index file
+  template:
+    src:  "{{ template_name }}"
+    dest: /var/www/html/index.html
+  notify:
+    - start_httpd_service
+    - enable_firewall

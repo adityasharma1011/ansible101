@@ -1,0 +1,17 @@
+{#  This is index file template #}
+
+<h2>
+Welcome to {{ ansible_facts.fqdn }}
+<br>
+IP Address of this system is {{ ansible_facts.default_ipv4.address }}
+<br>
+This web page was created on {{ ansible_facts.date_time.date }}
+<br>
+System Owner: {{ owner }}
+<br>
+It was fun sharing and learning with you
+
+<br>
+NetSoft College of Technology 
+</h2>
+

@@ -1,0 +1,6 @@
+---
+# vars file for kumar_web
+package:  httpd
+template_name:  index.j2
+service_name_1: httpd
+service_name_2: http

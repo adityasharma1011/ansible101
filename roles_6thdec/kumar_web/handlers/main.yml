@@ -1,0 +1,11 @@
+---
+# handlers file for kumar_web
+- name: start_httpd_service
+  service:  
+    name: "{{ service_name_1 }}"
+    state:  restarted
+- name: enable_firewall
+  firewalld:
+    service:  "{{ service_name_2 }}"
+    state:  enabled
+    immediate:  yes
