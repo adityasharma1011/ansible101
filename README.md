@@ -1,2 +1,1 @@
-# ansible101
-Sample Ansible playbooks 
+Sample Ansible playbooks
